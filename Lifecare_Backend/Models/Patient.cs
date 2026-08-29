@@ -85,6 +85,36 @@ namespace Lifecare_Backend.Models
         [StringLength(100)]
         public string? PolicyNumber { get; set; }
 
+        [StringLength(100)]
+        public string? Ward { get; set; }
+
+        [StringLength(50)]
+        public string? WardNumber { get; set; }
+
+        [StringLength(100)]
+        public string? RelativeName { get; set; }
+
+        [StringLength(100)]
+        public string? Relation { get; set; }
+
+        [StringLength(20)]
+        public string? RelativePhone { get; set; }
+
+        [StringLength(250)]
+        public string? RelativeAddress { get; set; }
+
+        [StringLength(50)]
+        public string? MaritalStatus { get; set; }
+
+        [StringLength(50)]
+        public string? Child { get; set; }
+
+        [StringLength(100)]
+        public string? Occupation { get; set; }
+
+        [StringLength(100)]
+        public string? Religion { get; set; }
+
         public ICollection<PastOperation> PastOperations { get; set; } = new List<PastOperation>();
     }
 
@@ -163,6 +193,19 @@ namespace Lifecare_Backend.Models
         public string? PolicyNumber { get; set; }
 
         public List<CreatePastOperationDto>? PastOperations { get; set; }
+
+        public string? Ward { get; set; }
+        public string? WardNumber { get; set; }
+
+        public string? RelativeName { get; set; }
+        public string? Relation { get; set; }
+        public string? RelativePhone { get; set; }
+        public string? RelativeAddress { get; set; }
+
+        public string? MaritalStatus { get; set; }
+        public string? Child { get; set; }
+        public string? Occupation { get; set; }
+        public string? Religion { get; set; }
     }
 
     public class CreatePastOperationDto
@@ -201,6 +244,19 @@ namespace Lifecare_Backend.Models
         public string? InsuranceCompany { get; set; }
         public string? PolicyNumber { get; set; }
         public List<PastOperationDto> PastOperations { get; set; } = new();
+
+        public string? Ward { get; set; }
+        public string? WardNumber { get; set; }
+
+        public string? RelativeName { get; set; }
+        public string? Relation { get; set; }
+        public string? RelativePhone { get; set; }
+        public string? RelativeAddress { get; set; }
+
+        public string? MaritalStatus { get; set; }
+        public string? Child { get; set; }
+        public string? Occupation { get; set; }
+        public string? Religion { get; set; }
     }
 
     public class PastOperationDto

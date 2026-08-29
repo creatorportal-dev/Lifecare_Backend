@@ -46,6 +46,16 @@ namespace Lifecare_Backend.Services
                 Mediclaim = p.Mediclaim,
                 InsuranceCompany = p.InsuranceCompany,
                 PolicyNumber = p.PolicyNumber,
+                Ward = p.Ward,
+                WardNumber = p.WardNumber,
+                RelativeName = p.RelativeName,
+                Relation = p.Relation,
+                RelativePhone = p.RelativePhone,
+                RelativeAddress = p.RelativeAddress,
+                MaritalStatus = p.MaritalStatus,
+                Child = p.Child,
+                Occupation = p.Occupation,
+                Religion = p.Religion,
                 PastOperations = p.PastOperations.Select(o => new PastOperationDto
                 {
                     Id = o.Id,
@@ -148,6 +158,16 @@ namespace Lifecare_Backend.Services
                 Mediclaim = dto.Mediclaim,
                 InsuranceCompany = dto.InsuranceCompany,
                 PolicyNumber = dto.PolicyNumber,
+                Ward = dto.Ward,
+                WardNumber = dto.WardNumber,
+                RelativeName = dto.RelativeName,
+                Relation = dto.Relation,
+                RelativePhone = dto.RelativePhone,
+                RelativeAddress = dto.RelativeAddress,
+                MaritalStatus = dto.MaritalStatus,
+                Child = dto.Child,
+                Occupation = dto.Occupation,
+                Religion = dto.Religion,
                 PastOperations = dto.PastOperations?.Select(o => new PastOperation
                 {
                     Type = o.Type,

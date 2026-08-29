@@ -21,5 +21,7 @@ namespace Lifecare_Backend.Data
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillItem> BillItems { get; set; }
         public DbSet<HospitalSettings> HospitalSettings { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<IpdWard> IpdWards { get; set; }
     }
 }
