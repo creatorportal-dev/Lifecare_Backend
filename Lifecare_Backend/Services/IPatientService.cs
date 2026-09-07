@@ -12,5 +12,6 @@ namespace Lifecare_Backend.Services
         Task<IEnumerable<PatientDto>> SearchAsync(string query);
         Task<PatientDto> CreateAsync(CreatePatientDto dto);
         Task<PatientDto?> UpdateStatusAsync(int id, string status);
+        Task<bool> DeleteAsync(int id);
     }
 }

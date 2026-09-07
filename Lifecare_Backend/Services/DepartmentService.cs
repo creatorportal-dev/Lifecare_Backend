@@ -16,6 +16,7 @@ namespace Lifecare_Backend.Services
         public async Task<IEnumerable<DepartmentDto>> GetAllAsync()
         {
             return await _context.Departments
+                .AsNoTracking()
                 .Select(d => new DepartmentDto
                 {
                     Id = d.Id,
@@ -26,14 +27,13 @@ namespace Lifecare_Backend.Services
 
         public async Task<DepartmentDto?> GetByIdAsync(int id)
         {
-            var department = await _context.Departments.FindAsync(id);
-            if (department == null) return null;
+            var department = await _context.Departments
+                .AsNoTracking()
+                .Where(d => d.Id == id)
+                .Select(d => new DepartmentDto { Id = d.Id, Name = d.Name })
+                .FirstOrDefaultAsync();
 
-            return new DepartmentDto
-            {
-                Id = department.Id,
-                Name = department.Name
-            };
+            return department;
         }
 
         public async Task<DepartmentDto> CreateAsync(CreateDepartmentDto dto)

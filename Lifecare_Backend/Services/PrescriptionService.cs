@@ -43,24 +43,60 @@ namespace Lifecare_Backend.Services
 
         public async Task<IEnumerable<PrescriptionDto>> GetAllAsync()
         {
-            var prescriptions = await _context.Prescriptions
-                .Include(p => p.Patient)
-                .Include(p => p.Medicines)
+            return await _context.Prescriptions
+                .AsNoTracking()
                 .OrderByDescending(p => p.CreatedAt)
+                .Select(p => new PrescriptionDto
+                {
+                    Id = p.Id,
+                    PatientId = p.PatientId.ToString(),
+                    Diagnosis = p.Diagnosis,
+                    Disease = p.Disease,
+                    Suggestion = p.Suggestion,
+                    FollowUpDate = p.FollowUpDate,
+                    CourseDays = p.CourseDays,
+                    CreatedAt = p.CreatedAt.ToString("o"),
+                    Medicines = p.Medicines.Select(m => new PrescribedMedicineDto
+                    {
+                        MedicineId = m.MedicineId.ToString(),
+                        Name = m.Name,
+                        Morning = m.Morning,
+                        Afternoon = m.Afternoon,
+                        Evening = m.Evening,
+                        Night = m.Night
+                    }).ToList()
+                })
                 .ToListAsync();
-
-            return prescriptions.Select(MapToDto);
         }
 
         public async Task<PrescriptionDto?> GetByIdAsync(int id)
         {
             var p = await _context.Prescriptions
-                .Include(x => x.Patient)
-                .Include(x => x.Medicines)
-                .FirstOrDefaultAsync(x => x.Id == id);
-            
-            if (p == null) return null;
-            return MapToDto(p);
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => new PrescriptionDto
+                {
+                    Id = x.Id,
+                    PatientId = x.PatientId.ToString(),
+                    Diagnosis = x.Diagnosis,
+                    Disease = x.Disease,
+                    Suggestion = x.Suggestion,
+                    FollowUpDate = x.FollowUpDate,
+                    CourseDays = x.CourseDays,
+                    CreatedAt = x.CreatedAt.ToString("o"),
+                    Medicines = x.Medicines.Select(m => new PrescribedMedicineDto
+                    {
+                        MedicineId = m.MedicineId.ToString(),
+                        Name = m.Name,
+                        Morning = m.Morning,
+                        Afternoon = m.Afternoon,
+                        Evening = m.Evening,
+                        Night = m.Night
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return p;
         }
 
         public async Task<PrescriptionDto> CreateAsync(CreatePrescriptionDto dto)

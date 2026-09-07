@@ -43,24 +43,60 @@ namespace Lifecare_Backend.Services
 
         public async Task<IEnumerable<BillDto>> GetAllAsync()
         {
-            var bills = await _context.Bills
-                .Include(b => b.Patient)
-                .Include(b => b.Items)
+            return await _context.Bills
+                .AsNoTracking()
                 .OrderByDescending(b => b.CreatedAt)
+                .Select(b => new BillDto
+                {
+                    Id = b.Id,
+                    PatientId = b.PatientId.ToString(),
+                    PatientCode = b.PatientCode,
+                    Subtotal = b.Subtotal,
+                    DiscountType = b.DiscountType,
+                    DiscountValue = b.DiscountValue,
+                    Total = b.Total,
+                    CreatedAt = b.CreatedAt.ToString("o"),
+                    Items = b.Items.Select(i => new BillItemDto
+                    {
+                        MedicineId = i.MedicineId.ToString(),
+                        Name = i.Name,
+                        Units = i.Units,
+                        Pieces = i.Pieces,
+                        Mrp = i.Mrp,
+                        Total = i.Total
+                    }).ToList()
+                })
                 .ToListAsync();
-
-            return bills.Select(MapToDto);
         }
 
         public async Task<BillDto?> GetByIdAsync(int id)
         {
             var b = await _context.Bills
-                .Include(x => x.Patient)
-                .Include(x => x.Items)
-                .FirstOrDefaultAsync(x => x.Id == id);
-            
-            if (b == null) return null;
-            return MapToDto(b);
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => new BillDto
+                {
+                    Id = x.Id,
+                    PatientId = x.PatientId.ToString(),
+                    PatientCode = x.PatientCode,
+                    Subtotal = x.Subtotal,
+                    DiscountType = x.DiscountType,
+                    DiscountValue = x.DiscountValue,
+                    Total = x.Total,
+                    CreatedAt = x.CreatedAt.ToString("o"),
+                    Items = x.Items.Select(i => new BillItemDto
+                    {
+                        MedicineId = i.MedicineId.ToString(),
+                        Name = i.Name,
+                        Units = i.Units,
+                        Pieces = i.Pieces,
+                        Mrp = i.Mrp,
+                        Total = i.Total
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return b;
         }
 
         public async Task<BillDto> CreateAsync(CreateBillDto dto)
@@ -103,10 +139,33 @@ namespace Lifecare_Backend.Services
 
             await _context.SaveChangesAsync();
 
-            // Load related patient for mapping
-            await _context.Entry(bill).Reference(b => b.Patient).LoadAsync();
+            // Project created bill to DTO (avoid tracking full entity)
+            var result = await _context.Bills
+                .AsNoTracking()
+                .Where(b => b.Id == bill.Id)
+                .Select(b => new BillDto
+                {
+                    Id = b.Id,
+                    PatientId = b.PatientId.ToString(),
+                    PatientCode = b.PatientCode,
+                    Subtotal = b.Subtotal,
+                    DiscountType = b.DiscountType,
+                    DiscountValue = b.DiscountValue,
+                    Total = b.Total,
+                    CreatedAt = b.CreatedAt.ToString("o"),
+                    Items = b.Items.Select(i => new BillItemDto
+                    {
+                        MedicineId = i.MedicineId.ToString(),
+                        Name = i.Name,
+                        Units = i.Units,
+                        Pieces = i.Pieces,
+                        Mrp = i.Mrp,
+                        Total = i.Total
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
 
-            return MapToDto(bill);
+            return result!;
         }
     }
 }

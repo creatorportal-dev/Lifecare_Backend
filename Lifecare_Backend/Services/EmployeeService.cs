@@ -16,6 +16,7 @@ namespace Lifecare_Backend.Services
         public async Task<IEnumerable<EmployeeDto>> GetAllAsync()
         {
             return await _context.Employees
+                .AsNoTracking()
                 .Select(e => new EmployeeDto
                 {
                     Id = e.Id,
@@ -36,24 +37,27 @@ namespace Lifecare_Backend.Services
 
         public async Task<EmployeeDto?> GetByIdAsync(int id)
         {
-            var e = await _context.Employees.FindAsync(id);
-            if (e == null) return null;
+            var e = await _context.Employees
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => new EmployeeDto
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Name = x.Name,
+                    Email = x.Email,
+                    Password = x.Password,
+                    Phone = x.Phone,
+                    Department = x.Department,
+                    Role = x.Role,
+                    JoiningDate = x.JoiningDate,
+                    Address = x.Address,
+                    Photo = x.Photo,
+                    Active = x.Active
+                })
+                .FirstOrDefaultAsync();
 
-            return new EmployeeDto
-            {
-                Id = e.Id,
-                Code = e.Code,
-                Name = e.Name,
-                Email = e.Email,
-                Password = e.Password,
-                Phone = e.Phone,
-                Department = e.Department,
-                Role = e.Role,
-                JoiningDate = e.JoiningDate,
-                Address = e.Address,
-                Photo = e.Photo,
-                Active = e.Active
-            };
+            return e;
         }
 
         public async Task<EmployeeDto> CreateAsync(CreateEmployeeDto dto)
@@ -175,7 +179,10 @@ namespace Lifecare_Backend.Services
 
         public async Task<EmployeeDto?> LoginAsync(LoginDto dto)
         {
-            var e = await _context.Employees.FirstOrDefaultAsync(x => x.Email.ToLower() == dto.Email.ToLower() && x.Password == dto.Password && x.Active);
+            var lowerEmail = dto.Email?.ToLower() ?? string.Empty;
+            var e = await _context.Employees
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Email.ToLower() == lowerEmail && x.Password == dto.Password && x.Active);
             if (e == null) return null;
 
             return new EmployeeDto

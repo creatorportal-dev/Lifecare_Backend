@@ -16,6 +16,7 @@ namespace Lifecare_Backend.Services
         public async Task<IEnumerable<MedicineCategoryDto>> GetAllAsync()
         {
             return await _context.MedicineCategories
+                .AsNoTracking()
                 .Select(m => new MedicineCategoryDto
                 {
                     Id = m.Id,
@@ -28,16 +29,19 @@ namespace Lifecare_Backend.Services
 
         public async Task<MedicineCategoryDto?> GetByIdAsync(int id)
         {
-            var category = await _context.MedicineCategories.FindAsync(id);
-            if (category == null) return null;
+            var category = await _context.MedicineCategories
+                .AsNoTracking()
+                .Where(c => c.Id == id)
+                .Select(c => new MedicineCategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Unit = c.Unit,
+                    PiecesPerUnit = c.PiecesPerUnit
+                })
+                .FirstOrDefaultAsync();
 
-            return new MedicineCategoryDto
-            {
-                Id = category.Id,
-                Name = category.Name,
-                Unit = category.Unit,
-                PiecesPerUnit = category.PiecesPerUnit
-            };
+            return category;
         }
 
         public async Task<MedicineCategoryDto> CreateAsync(CreateMedicineCategoryDto dto)

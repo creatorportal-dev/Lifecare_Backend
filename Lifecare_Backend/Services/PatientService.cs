@@ -69,32 +69,142 @@ namespace Lifecare_Backend.Services
 
         public async Task<IEnumerable<PatientDto>> GetAllAsync()
         {
-            var patients = await _context.Patients
-                .Include(p => p.PastOperations)
+            // Use paging by default to avoid returning huge result sets and AsNoTracking for read-only
+            return await _context.Patients
+                .AsNoTracking()
                 .OrderByDescending(p => p.RegisteredAt)
+                .Take(100)
+                .Select(p => new PatientDto
+                {
+                    Id = p.Id,
+                    Code = p.Code,
+                    Name = p.Name,
+                    Phone = p.Phone,
+                    Age = p.Age,
+                    Gender = p.Gender,
+                    Weight = p.Weight,
+                    Height = p.Height,
+                    Caste = p.Caste,
+                    AddressLine = p.AddressLine,
+                    State = p.State,
+                    City = p.City,
+                    Pincode = p.Pincode,
+                    Type = p.Type,
+                    Department = p.Department,
+                    Doctor = p.Doctor,
+                    OpdCharge = p.OpdCharge,
+                    RegisteredAt = p.RegisteredAt.ToString("o"), // ISO 8601
+                    Status = p.Status,
+                    Allergy = p.Allergy,
+                    Deformity = p.Deformity,
+                    Complaint = p.Complaint,
+                    Mediclaim = p.Mediclaim,
+                    InsuranceCompany = p.InsuranceCompany,
+                    PolicyNumber = p.PolicyNumber,
+                    Ward = p.Ward,
+                    WardNumber = p.WardNumber,
+                    RelativeName = p.RelativeName,
+                    Relation = p.Relation,
+                    RelativePhone = p.RelativePhone,
+                    RelativeAddress = p.RelativeAddress,
+                    MaritalStatus = p.MaritalStatus,
+                    Child = p.Child,
+                    Occupation = p.Occupation,
+                    Religion = p.Religion,
+                    PastOperations = p.PastOperations.Select(o => new PastOperationDto
+                    {
+                        Id = o.Id,
+                        Type = o.Type,
+                        BodyPart = o.BodyPart,
+                        Place = o.Place,
+                        Deformity = o.Deformity
+                    }).ToList()
+                })
                 .ToListAsync();
-
-            return patients.Select(MapToDto);
         }
 
         public async Task<PatientDto?> GetByIdAsync(int id)
         {
             var patient = await _context.Patients
-                .Include(p => p.PastOperations)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .AsNoTracking()
+                .Where(p => p.Id == id)
+                .Select(p => new PatientDto
+                {
+                    Id = p.Id,
+                    Code = p.Code,
+                    Name = p.Name,
+                    Phone = p.Phone,
+                    Age = p.Age,
+                    Gender = p.Gender,
+                    Weight = p.Weight,
+                    Height = p.Height,
+                    Caste = p.Caste,
+                    AddressLine = p.AddressLine,
+                    State = p.State,
+                    City = p.City,
+                    Pincode = p.Pincode,
+                    Type = p.Type,
+                    Department = p.Department,
+                    Doctor = p.Doctor,
+                    OpdCharge = p.OpdCharge,
+                    RegisteredAt = p.RegisteredAt.ToString("o"), // ISO 8601
+                    Status = p.Status,
+                    Allergy = p.Allergy,
+                    Deformity = p.Deformity,
+                    Complaint = p.Complaint,
+                    Mediclaim = p.Mediclaim,
+                    InsuranceCompany = p.InsuranceCompany,
+                    PolicyNumber = p.PolicyNumber,
+                    Ward = p.Ward,
+                    WardNumber = p.WardNumber,
+                    RelativeName = p.RelativeName,
+                    Relation = p.Relation,
+                    RelativePhone = p.RelativePhone,
+                    RelativeAddress = p.RelativeAddress,
+                    MaritalStatus = p.MaritalStatus,
+                    Child = p.Child,
+                    Occupation = p.Occupation,
+                    Religion = p.Religion,
+                    PastOperations = p.PastOperations.Select(o => new PastOperationDto
+                    {
+                        Id = o.Id,
+                        Type = o.Type,
+                        BodyPart = o.BodyPart,
+                        Place = o.Place,
+                        Deformity = o.Deformity
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
 
-            if (patient == null) return null;
-            return MapToDto(patient);
+            return patient;
         }
 
         public async Task<PatientDto?> GetByCodeAsync(string code)
         {
             var p = await _context.Patients
-                .Include(x => x.PastOperations)
-                .FirstOrDefaultAsync(x => x.Code == code);
-            
-            if (p == null) return null;
-            return MapToDto(p);
+                .AsNoTracking()
+                .Where(x => x.Code == code)
+                .Select(x => new PatientDto
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Name = x.Name,
+                    Phone = x.Phone,
+                    Age = x.Age,
+                    Gender = x.Gender,
+                    RegisteredAt = x.RegisteredAt.ToString("o"),
+                    PastOperations = x.PastOperations.Select(o => new PastOperationDto
+                    {
+                        Id = o.Id,
+                        Type = o.Type,
+                        BodyPart = o.BodyPart,
+                        Place = o.Place,
+                        Deformity = o.Deformity
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return p;
         }
 
         public async Task<IEnumerable<PatientDto>> SearchAsync(string query)
@@ -102,14 +212,21 @@ namespace Lifecare_Backend.Services
             if (string.IsNullOrWhiteSpace(query))
                 return new List<PatientDto>();
 
-            var lowerQuery = query.ToLower();
-            var patients = await _context.Patients
-                .Include(x => x.PastOperations)
-                .Where(x => x.Code.ToLower().Contains(lowerQuery) || x.Name.ToLower().Contains(lowerQuery))
-                .Take(10) // Limit results
+            var pattern = $"%{query}%";
+            return await _context.Patients
+                .AsNoTracking()
+                .Where(x => EF.Functions.Like(x.Code, pattern) || EF.Functions.Like(x.Name, pattern))
+                .OrderByDescending(x => x.RegisteredAt)
+                .Take(10)
+                .Select(x => new PatientDto
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Name = x.Name,
+                    Phone = x.Phone,
+                    RegisteredAt = x.RegisteredAt.ToString("o")
+                })
                 .ToListAsync();
-
-            return patients.Select(MapToDto);
         }
 
         public async Task<PatientDto> CreateAsync(CreatePatientDto dto)
@@ -195,6 +312,16 @@ namespace Lifecare_Backend.Services
             await _context.SaveChangesAsync();
 
             return MapToDto(patient);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null) return false;
+
+            _context.Patients.Remove(patient);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

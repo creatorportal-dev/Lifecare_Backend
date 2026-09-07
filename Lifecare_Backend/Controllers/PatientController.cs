@@ -59,5 +59,13 @@ namespace Lifecare_Backend.Controllers
             if (patient == null) return NotFound();
             return Ok(patient);
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var success = await _patientService.DeleteAsync(id);
+            if (!success) return NotFound();
+            return NoContent();
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace Lifecare_Backend.Services
         public async Task<IEnumerable<ChargeDto>> GetAllAsync()
         {
             return await _context.Charges
+                .AsNoTracking()
                 .Select(c => new ChargeDto
                 {
                     Id = c.Id,
@@ -27,15 +28,13 @@ namespace Lifecare_Backend.Services
 
         public async Task<ChargeDto?> GetByIdAsync(int id)
         {
-            var charge = await _context.Charges.FindAsync(id);
-            if (charge == null) return null;
+            var charge = await _context.Charges
+                .AsNoTracking()
+                .Where(c => c.Id == id)
+                .Select(c => new ChargeDto { Id = c.Id, Name = c.Name, Amount = c.Amount })
+                .FirstOrDefaultAsync();
 
-            return new ChargeDto
-            {
-                Id = charge.Id,
-                Name = charge.Name,
-                Amount = charge.Amount
-            };
+            return charge;
         }
 
         public async Task<ChargeDto> CreateAsync(CreateChargeDto dto)

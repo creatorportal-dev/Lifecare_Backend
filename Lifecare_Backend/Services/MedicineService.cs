@@ -29,39 +29,64 @@ namespace Lifecare_Backend.Services
 
         public async Task<IEnumerable<MedicineDto>> GetAllAsync()
         {
-            var medicines = await _context.Medicines.ToListAsync();
-            return medicines.Select(MapToDto);
+            return await _context.Medicines
+                .AsNoTracking()
+                .Select(m => new MedicineDto
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    CategoryId = m.CategoryId,
+                    Batch = m.Batch,
+                    MfgDate = m.MfgDate.ToString("yyyy-MM-dd"),
+                    ExpDate = m.ExpDate.ToString("yyyy-MM-dd"),
+                    Quantity = m.Quantity,
+                    Mrp = m.Mrp
+                })
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<MedicineDto>> SearchAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return new List<MedicineDto>();
-
-            var lowerQuery = query.ToLower();
-            var medicines = await _context.Medicines
-                .Where(m => m.Name.ToLower().Contains(lowerQuery) || m.Batch.ToLower().Contains(lowerQuery))
+            var pattern = $"%{query}%";
+            return await _context.Medicines
+                .AsNoTracking()
+                .Where(m => EF.Functions.Like(m.Name, pattern) || EF.Functions.Like(m.Batch, pattern))
+                .OrderBy(m => m.Name)
                 .Take(20)
+                .Select(m => new MedicineDto
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    CategoryId = m.CategoryId,
+                    Batch = m.Batch,
+                    MfgDate = m.MfgDate.ToString("yyyy-MM-dd"),
+                    ExpDate = m.ExpDate.ToString("yyyy-MM-dd"),
+                    Quantity = m.Quantity,
+                    Mrp = m.Mrp
+                })
                 .ToListAsync();
-
-            return medicines.Select(MapToDto);
         }
         public async Task<MedicineDto?> GetByIdAsync(int id)
         {
-            var m = await _context.Medicines.FindAsync(id);
-            if (m == null) return null;
+            var m = await _context.Medicines
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => new MedicineDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CategoryId = x.CategoryId,
+                    Batch = x.Batch,
+                    MfgDate = x.MfgDate.ToString("yyyy-MM-dd"),
+                    ExpDate = x.ExpDate.ToString("yyyy-MM-dd"),
+                    Quantity = x.Quantity,
+                    Mrp = x.Mrp
+                })
+                .FirstOrDefaultAsync();
 
-            return new MedicineDto
-            {
-                Id = m.Id,
-                Name = m.Name,
-                CategoryId = m.CategoryId,
-                Batch = m.Batch,
-                MfgDate = m.MfgDate.ToString("yyyy-MM-dd"),
-                ExpDate = m.ExpDate.ToString("yyyy-MM-dd"),
-                Quantity = m.Quantity,
-                Mrp = m.Mrp
-            };
+            return m;
         }
 
         public async Task<MedicineDto> CreateAsync(CreateMedicineDto dto)
