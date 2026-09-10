@@ -13,16 +13,26 @@ namespace Lifecare_Backend.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<DepartmentDto>> GetAllAsync()
+        public async Task<PagedResult<DepartmentDto>> GetAllAsync(int page = 1, int pageSize = 50)
         {
-            return await _context.Departments
-                .AsNoTracking()
-                .Select(d => new DepartmentDto
-                {
-                    Id = d.Id,
-                    Name = d.Name
-                })
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
+            var query = _context.Departments.AsNoTracking().OrderBy(d => d.Id);
+            var total = await query.CountAsync();
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(d => new DepartmentDto { Id = d.Id, Name = d.Name })
                 .ToListAsync();
+
+            return new PagedResult<DepartmentDto>
+            {
+                Items = items,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = total
+            };
         }
 
         public async Task<DepartmentDto?> GetByIdAsync(int id)

@@ -27,10 +27,16 @@ namespace Lifecare_Backend.Services
             };
         }
 
-        public async Task<IEnumerable<MedicineDto>> GetAllAsync()
+        public async Task<PagedResult<MedicineDto>> GetAllAsync(int page = 1, int pageSize = 50)
         {
-            return await _context.Medicines
-                .AsNoTracking()
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
+            var query = _context.Medicines.AsNoTracking().OrderBy(m => m.Name);
+            var total = await query.CountAsync();
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(m => new MedicineDto
                 {
                     Id = m.Id,
@@ -43,18 +49,28 @@ namespace Lifecare_Backend.Services
                     Mrp = m.Mrp
                 })
                 .ToListAsync();
+
+            return new PagedResult<MedicineDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
         }
 
-        public async Task<IEnumerable<MedicineDto>> SearchAsync(string query)
+        public async Task<PagedResult<MedicineDto>> SearchAsync(string query, int page = 1, int pageSize = 20)
         {
             if (string.IsNullOrWhiteSpace(query))
-                return new List<MedicineDto>();
+                return new PagedResult<MedicineDto> { Items = new List<MedicineDto>(), Page = page, PageSize = pageSize, TotalCount = 0 };
+
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
             var pattern = $"%{query}%";
-            return await _context.Medicines
+            var dbQuery = _context.Medicines
                 .AsNoTracking()
                 .Where(m => EF.Functions.Like(m.Name, pattern) || EF.Functions.Like(m.Batch, pattern))
-                .OrderBy(m => m.Name)
-                .Take(20)
+                .OrderBy(m => m.Name);
+
+            var total = await dbQuery.CountAsync();
+            var items = await dbQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(m => new MedicineDto
                 {
                     Id = m.Id,
@@ -67,6 +83,8 @@ namespace Lifecare_Backend.Services
                     Mrp = m.Mrp
                 })
                 .ToListAsync();
+
+            return new PagedResult<MedicineDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
         }
         public async Task<MedicineDto?> GetByIdAsync(int id)
         {

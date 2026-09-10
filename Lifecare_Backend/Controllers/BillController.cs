@@ -18,9 +18,9 @@ namespace Lifecare_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BillDto>>> GetAll()
+        public async Task<ActionResult<PagedResult<BillDto>>> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 50)
         {
-            var bills = await _billService.GetAllAsync();
+            var bills = await _billService.GetAllAsync(page, pageSize);
             return Ok(bills);
         }
 

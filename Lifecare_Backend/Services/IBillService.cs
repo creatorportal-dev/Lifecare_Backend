@@ -6,7 +6,7 @@ namespace Lifecare_Backend.Services
 {
     public interface IBillService
     {
-        Task<IEnumerable<BillDto>> GetAllAsync();
+        Task<PagedResult<BillDto>> GetAllAsync(int page = 1, int pageSize = 50);
         Task<BillDto?> GetByIdAsync(int id);
         Task<BillDto> CreateAsync(CreateBillDto dto);
     }

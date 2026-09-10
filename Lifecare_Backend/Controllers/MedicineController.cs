@@ -16,16 +16,16 @@ namespace Lifecare_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MedicineDto>>> GetAll()
+        public async Task<ActionResult<PagedResult<MedicineDto>>> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 50)
         {
-            var medicines = await _medicineService.GetAllAsync();
+            var medicines = await _medicineService.GetAllAsync(page, pageSize);
             return Ok(medicines);
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<MedicineDto>>> Search([FromQuery] string q)
+        public async Task<ActionResult<PagedResult<MedicineDto>>> Search([FromQuery] string q, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var medicines = await _medicineService.SearchAsync(q);
+            var medicines = await _medicineService.SearchAsync(q, page, pageSize);
             return Ok(medicines);
         }
 

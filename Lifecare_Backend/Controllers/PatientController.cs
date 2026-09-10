@@ -16,9 +16,9 @@ namespace Lifecare_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PatientDto>>> GetAll()
+        public async Task<ActionResult<PagedResult<PatientDto>>> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 50)
         {
-            var patients = await _patientService.GetAllAsync();
+            var patients = await _patientService.GetAllAsync(page, pageSize);
             return Ok(patients);
         }
 
@@ -39,9 +39,9 @@ namespace Lifecare_Backend.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<PatientDto>>> Search([FromQuery] string q)
+        public async Task<ActionResult<IEnumerable<PatientDto>>> Search([FromQuery] string q, [FromQuery] bool prescribedOnly = false)
         {
-            var patients = await _patientService.SearchAsync(q);
+            var patients = await _patientService.SearchAsync(q, prescribedOnly);
             return Ok(patients);
         }
 

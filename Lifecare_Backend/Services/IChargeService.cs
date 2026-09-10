@@ -4,7 +4,7 @@ namespace Lifecare_Backend.Services
 {
     public interface IChargeService
     {
-        Task<IEnumerable<ChargeDto>> GetAllAsync();
+        Task<PagedResult<ChargeDto>> GetAllAsync(int page = 1, int pageSize = 50);
         Task<ChargeDto?> GetByIdAsync(int id);
         Task<ChargeDto> CreateAsync(CreateChargeDto dto);
         Task<ChargeDto?> UpdateAsync(int id, UpdateChargeDto dto);

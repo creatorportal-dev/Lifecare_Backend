@@ -6,7 +6,7 @@ namespace Lifecare_Backend.Services
 {
     public interface IPrescriptionService
     {
-        Task<IEnumerable<PrescriptionDto>> GetAllAsync();
+        Task<PagedResult<PrescriptionDto>> GetAllAsync(int page = 1, int pageSize = 50);
         Task<PrescriptionDto?> GetByIdAsync(int id);
         Task<PrescriptionDto> CreateAsync(CreatePrescriptionDto dto);
     }

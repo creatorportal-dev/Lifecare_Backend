@@ -6,5 +6,6 @@ namespace Lifecare_Backend.Models
         public string Helpline { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string LogoUrl { get; set; } = string.Empty;
+        public int FollowUpValidityMonths { get; set; } = 3;
     }
 }

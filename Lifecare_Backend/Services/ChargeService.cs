@@ -13,17 +13,20 @@ namespace Lifecare_Backend.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<ChargeDto>> GetAllAsync()
+        public async Task<PagedResult<ChargeDto>> GetAllAsync(int page = 1, int pageSize = 50)
         {
-            return await _context.Charges
-                .AsNoTracking()
-                .Select(c => new ChargeDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Amount = c.Amount
-                })
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
+            var query = _context.Charges.AsNoTracking().OrderBy(c => c.Id);
+            var total = await query.CountAsync();
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(c => new ChargeDto { Id = c.Id, Name = c.Name, Amount = c.Amount })
                 .ToListAsync();
+
+            return new PagedResult<ChargeDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
         }
 
         public async Task<ChargeDto?> GetByIdAsync(int id)

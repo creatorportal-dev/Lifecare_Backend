@@ -4,7 +4,7 @@ namespace Lifecare_Backend.Services
 {
     public interface IMedicineCategoryService
     {
-        Task<IEnumerable<MedicineCategoryDto>> GetAllAsync();
+        Task<PagedResult<MedicineCategoryDto>> GetAllAsync(int page = 1, int pageSize = 50);
         Task<MedicineCategoryDto?> GetByIdAsync(int id);
         Task<MedicineCategoryDto> CreateAsync(CreateMedicineCategoryDto dto);
         Task<MedicineCategoryDto?> UpdateAsync(int id, UpdateMedicineCategoryDto dto);

@@ -67,13 +67,16 @@ namespace Lifecare_Backend.Services
             };
         }
 
-        public async Task<IEnumerable<PatientDto>> GetAllAsync()
+        public async Task<PagedResult<PatientDto>> GetAllAsync(int page = 1, int pageSize = 50)
         {
-            // Use paging by default to avoid returning huge result sets and AsNoTracking for read-only
-            return await _context.Patients
-                .AsNoTracking()
-                .OrderByDescending(p => p.RegisteredAt)
-                .Take(100)
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
+            var query = _context.Patients.AsNoTracking().OrderByDescending(p => p.RegisteredAt);
+            var total = await query.CountAsync();
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(p => new PatientDto
                 {
                     Id = p.Id,
@@ -121,6 +124,8 @@ namespace Lifecare_Backend.Services
                     }).ToList()
                 })
                 .ToListAsync();
+
+            return new PagedResult<PatientDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
         }
 
         public async Task<PatientDto?> GetByIdAsync(int id)
@@ -207,17 +212,29 @@ namespace Lifecare_Backend.Services
             return p;
         }
 
-        public async Task<IEnumerable<PatientDto>> SearchAsync(string query)
+        public async Task<PagedResult<PatientDto>> SearchAsync(string query, bool prescribedOnly = false, int page = 1, int pageSize = 10)
         {
             if (string.IsNullOrWhiteSpace(query))
-                return new List<PatientDto>();
+                return new PagedResult<PatientDto> { Items = new List<PatientDto>(), Page = 1, PageSize = pageSize, TotalCount = 0 };
+
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
 
             var pattern = $"%{query}%";
-            return await _context.Patients
+            var q = _context.Patients
                 .AsNoTracking()
-                .Where(x => EF.Functions.Like(x.Code, pattern) || EF.Functions.Like(x.Name, pattern))
+                .Where(x => EF.Functions.Like(x.Code, pattern) || EF.Functions.Like(x.Name, pattern));
+                
+            if (prescribedOnly)
+            {
+                q = q.Where(x => _context.Prescriptions.Any(pr => pr.PatientId == x.Id));
+            }
+
+            var total = await q.CountAsync();
+            var items = await q
                 .OrderByDescending(x => x.RegisteredAt)
-                .Take(10)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(x => new PatientDto
                 {
                     Id = x.Id,
@@ -227,6 +244,8 @@ namespace Lifecare_Backend.Services
                     RegisteredAt = x.RegisteredAt.ToString("o")
                 })
                 .ToListAsync();
+
+            return new PagedResult<PatientDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
         }
 
         public async Task<PatientDto> CreateAsync(CreatePatientDto dto)

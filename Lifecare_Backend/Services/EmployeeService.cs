@@ -13,10 +13,16 @@ namespace Lifecare_Backend.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAllAsync()
+        public async Task<PagedResult<EmployeeDto>> GetAllAsync(int page = 1, int pageSize = 50)
         {
-            return await _context.Employees
-                .AsNoTracking()
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
+            var query = _context.Employees.AsNoTracking().OrderBy(e => e.Id);
+            var total = await query.CountAsync();
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(e => new EmployeeDto
                 {
                     Id = e.Id,
@@ -33,6 +39,14 @@ namespace Lifecare_Backend.Services
                     Active = e.Active
                 })
                 .ToListAsync();
+
+            return new PagedResult<EmployeeDto>
+            {
+                Items = items,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = total
+            };
         }
 
         public async Task<EmployeeDto?> GetByIdAsync(int id)

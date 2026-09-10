@@ -41,11 +41,16 @@ namespace Lifecare_Backend.Services
             };
         }
 
-        public async Task<IEnumerable<BillDto>> GetAllAsync()
+        public async Task<PagedResult<BillDto>> GetAllAsync(int page = 1, int pageSize = 50)
         {
-            return await _context.Bills
-                .AsNoTracking()
-                .OrderByDescending(b => b.CreatedAt)
+            page = Math.Max(1, page);
+            pageSize = Math.Clamp(pageSize, 1, 1000);
+
+            var query = _context.Bills.AsNoTracking().OrderByDescending(b => b.CreatedAt);
+            var total = await query.CountAsync();
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(b => new BillDto
                 {
                     Id = b.Id,
@@ -67,6 +72,8 @@ namespace Lifecare_Backend.Services
                     }).ToList()
                 })
                 .ToListAsync();
+
+            return new PagedResult<BillDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
         }
 
         public async Task<BillDto?> GetByIdAsync(int id)

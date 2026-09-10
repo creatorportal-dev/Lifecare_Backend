@@ -29,7 +29,8 @@ namespace Lifecare_Backend.Controllers
                 { 
                     Helpline = "93 74 108 108 / 8000 8111", 
                     Address = "Vijardiya", 
-                    LogoUrl = "/logo.png" 
+                    LogoUrl = "/logo.png",
+                    FollowUpValidityMonths = 3
                 };
                 _context.HospitalSettings.Add(settings);
                 await _context.SaveChangesAsync();
@@ -51,6 +52,7 @@ namespace Lifecare_Backend.Controllers
                 settings.Helpline = updatedSettings.Helpline;
                 settings.Address = updatedSettings.Address;
                 settings.LogoUrl = updatedSettings.LogoUrl;
+                settings.FollowUpValidityMonths = updatedSettings.FollowUpValidityMonths;
             }
 
             await _context.SaveChangesAsync();
@@ -88,7 +90,8 @@ namespace Lifecare_Backend.Controllers
                 { 
                     Helpline = "", 
                     Address = "", 
-                    LogoUrl = logoUrl 
+                    LogoUrl = logoUrl,
+                    FollowUpValidityMonths = 3
                 };
                 _context.HospitalSettings.Add(settings);
             }
