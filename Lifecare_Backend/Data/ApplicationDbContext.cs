@@ -23,5 +23,46 @@ namespace Lifecare_Backend.Data
         public DbSet<HospitalSettings> HospitalSettings { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<IpdWard> IpdWards { get; set; }
+        public DbSet<NursingChart> NursingCharts { get; set; }
+        public DbSet<NursingChartMedication> NursingChartMedications { get; set; }
+        
+        public DbSet<DepositReceipt> DepositReceipts { get; set; }
+        public DbSet<DepositItem> DepositItems { get; set; }
+        
+        public DbSet<IpdCaseBill> IpdCaseBills { get; set; }
+        public DbSet<IpdCaseBillItem> IpdCaseBillItems { get; set; }
+
+        public DbSet<LabBill> LabBills { get; set; }
+        public DbSet<LabBillItem> LabBillItems { get; set; }
+
+        public DbSet<FinalBill> FinalBills { get; set; }
+        public DbSet<FinalBillItem> FinalBillItems { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DepositReceipt>()
+                .HasMany(d => d.Items)
+                .WithOne()
+                .HasForeignKey(i => i.DepositReceiptId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            modelBuilder.Entity<IpdCaseBill>()
+                .HasMany(d => d.Items)
+                .WithOne()
+                .HasForeignKey(i => i.IpdCaseBillId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<LabBill>()
+                .HasMany(d => d.Items)
+                .WithOne()
+                .HasForeignKey(i => i.LabBillId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            modelBuilder.Entity<FinalBill>()
+                .HasMany(d => d.Items)
+                .WithOne()
+                .HasForeignKey(i => i.FinalBillId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

@@ -13,6 +13,9 @@ namespace Lifecare_Backend.Models
 
         [Required]
         public decimal Amount { get; set; }
+
+        [StringLength(100)]
+        public string Category { get; set; } = "Hospital Bill";
     }
 
     public class CreateChargeDto
@@ -23,6 +26,9 @@ namespace Lifecare_Backend.Models
 
         [Required]
         public decimal Amount { get; set; }
+
+        [StringLength(100)]
+        public string Category { get; set; } = "Hospital Bill";
     }
 
     public class UpdateChargeDto
@@ -31,6 +37,9 @@ namespace Lifecare_Backend.Models
         public string? Name { get; set; }
         
         public decimal? Amount { get; set; }
+        
+        [StringLength(100)]
+        public string? Category { get; set; }
     }
 
     public class ChargeDto
@@ -38,5 +47,6 @@ namespace Lifecare_Backend.Models
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public decimal Amount { get; set; }
+        public string Category { get; set; } = "Hospital Bill";
     }
 }

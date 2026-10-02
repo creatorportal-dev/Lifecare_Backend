@@ -111,6 +111,11 @@ namespace Lifecare_Backend.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -137,6 +142,81 @@ namespace Lifecare_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.DepositItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Charges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DepositReceiptId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemReceiptNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalCharges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepositReceiptId");
+
+                    b.ToTable("DepositItems");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.DepositReceipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AdditionalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("BedCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BillDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DischargeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("FinalDepositAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiptNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DepositReceipts");
                 });
 
             modelBuilder.Entity("Lifecare_Backend.Models.Employee", b =>
@@ -203,6 +283,84 @@ namespace Lifecare_Backend.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Lifecare_Backend.Models.FinalBill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BedCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BillDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DepositAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("DepositDateRange")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DischargeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiptNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FinalBills");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.FinalBillItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Charges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DaysQty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FinalBillId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalCharges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FinalBillId");
+
+                    b.ToTable("FinalBillItems");
+                });
+
             modelBuilder.Entity("Lifecare_Backend.Models.HospitalSettings", b =>
                 {
                     b.Property<int>("Id")
@@ -212,6 +370,22 @@ namespace Lifecare_Backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankAccountName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankAccountNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankIfscCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -229,6 +403,83 @@ namespace Lifecare_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HospitalSettings");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.IpdCaseBill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BedCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BillDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DepositAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("DischargeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiptNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IpdCaseBills");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.IpdCaseBillItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Charges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DaysQty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IpdCaseBillId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalCharges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IpdCaseBillId");
+
+                    b.ToTable("IpdCaseBillItems");
                 });
 
             modelBuilder.Entity("Lifecare_Backend.Models.IpdWard", b =>
@@ -249,6 +500,77 @@ namespace Lifecare_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IpdWards");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.LabBill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BedCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BillDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiptNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Ward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LabBills");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.LabBillItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Charges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DaysQty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LabBillId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalCharges")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LabBillId");
+
+                    b.ToTable("LabBillItems");
                 });
 
             modelBuilder.Entity("Lifecare_Backend.Models.Medicine", b =>
@@ -313,6 +635,73 @@ namespace Lifecare_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MedicineCategories");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.NursingChart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Investigations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VitalsIntervalHours")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("NursingCharts");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.NursingChartMedication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Afternoon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Evening")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSyrup")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Morning")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Night")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NursingChartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NursingChartId");
+
+                    b.ToTable("NursingChartMedications");
                 });
 
             modelBuilder.Entity("Lifecare_Backend.Models.PastOperation", b =>
@@ -636,6 +1025,64 @@ namespace Lifecare_Backend.Migrations
                     b.Navigation("Bill");
                 });
 
+            modelBuilder.Entity("Lifecare_Backend.Models.DepositItem", b =>
+                {
+                    b.HasOne("Lifecare_Backend.Models.DepositReceipt", null)
+                        .WithMany("Items")
+                        .HasForeignKey("DepositReceiptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.FinalBillItem", b =>
+                {
+                    b.HasOne("Lifecare_Backend.Models.FinalBill", null)
+                        .WithMany("Items")
+                        .HasForeignKey("FinalBillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.IpdCaseBillItem", b =>
+                {
+                    b.HasOne("Lifecare_Backend.Models.IpdCaseBill", null)
+                        .WithMany("Items")
+                        .HasForeignKey("IpdCaseBillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.LabBillItem", b =>
+                {
+                    b.HasOne("Lifecare_Backend.Models.LabBill", null)
+                        .WithMany("Items")
+                        .HasForeignKey("LabBillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.NursingChart", b =>
+                {
+                    b.HasOne("Lifecare_Backend.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.NursingChartMedication", b =>
+                {
+                    b.HasOne("Lifecare_Backend.Models.NursingChart", "NursingChart")
+                        .WithMany("Medications")
+                        .HasForeignKey("NursingChartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NursingChart");
+                });
+
             modelBuilder.Entity("Lifecare_Backend.Models.PastOperation", b =>
                 {
                     b.HasOne("Lifecare_Backend.Models.Patient", "Patient")
@@ -672,6 +1119,31 @@ namespace Lifecare_Backend.Migrations
             modelBuilder.Entity("Lifecare_Backend.Models.Bill", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.DepositReceipt", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.FinalBill", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.IpdCaseBill", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.LabBill", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Lifecare_Backend.Models.NursingChart", b =>
+                {
+                    b.Navigation("Medications");
                 });
 
             modelBuilder.Entity("Lifecare_Backend.Models.Patient", b =>

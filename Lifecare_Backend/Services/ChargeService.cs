@@ -23,7 +23,7 @@ namespace Lifecare_Backend.Services
             var items = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Select(c => new ChargeDto { Id = c.Id, Name = c.Name, Amount = c.Amount })
+                .Select(c => new ChargeDto { Id = c.Id, Name = c.Name, Amount = c.Amount, Category = c.Category })
                 .ToListAsync();
 
             return new PagedResult<ChargeDto> { Items = items, Page = page, PageSize = pageSize, TotalCount = total };
@@ -34,7 +34,7 @@ namespace Lifecare_Backend.Services
             var charge = await _context.Charges
                 .AsNoTracking()
                 .Where(c => c.Id == id)
-                .Select(c => new ChargeDto { Id = c.Id, Name = c.Name, Amount = c.Amount })
+                .Select(c => new ChargeDto { Id = c.Id, Name = c.Name, Amount = c.Amount, Category = c.Category })
                 .FirstOrDefaultAsync();
 
             return charge;
@@ -45,7 +45,8 @@ namespace Lifecare_Backend.Services
             var charge = new Charge
             {
                 Name = dto.Name,
-                Amount = dto.Amount
+                Amount = dto.Amount,
+                Category = dto.Category ?? "Hospital Bill"
             };
 
             _context.Charges.Add(charge);
@@ -55,7 +56,8 @@ namespace Lifecare_Backend.Services
             {
                 Id = charge.Id,
                 Name = charge.Name,
-                Amount = charge.Amount
+                Amount = charge.Amount,
+                Category = charge.Category
             };
         }
 
@@ -66,6 +68,7 @@ namespace Lifecare_Backend.Services
 
             if (dto.Name != null) charge.Name = dto.Name;
             if (dto.Amount != null) charge.Amount = dto.Amount.Value;
+            if (dto.Category != null) charge.Category = dto.Category;
 
             await _context.SaveChangesAsync();
 
@@ -73,7 +76,8 @@ namespace Lifecare_Backend.Services
             {
                 Id = charge.Id,
                 Name = charge.Name,
-                Amount = charge.Amount
+                Amount = charge.Amount,
+                Category = charge.Category
             };
         }
 
