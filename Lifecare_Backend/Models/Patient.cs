@@ -115,6 +115,25 @@ namespace Lifecare_Backend.Models
         [StringLength(100)]
         public string? Religion { get; set; }
 
+        public bool IsMlc { get; set; }
+        [StringLength(100)]
+        public string? MlcDrIncharge { get; set; }
+        [StringLength(100)]
+        public string? MlcMedicalOfficer { get; set; }
+        public string? MlcDetailOfMatter { get; set; }
+        [StringLength(50)]
+        public string? MlcDateOfMatter { get; set; }
+        [StringLength(50)]
+        public string? MlcTimeOfMatter { get; set; }
+        public string? MlcCauseOfMatter { get; set; }
+        public string? MlcPlaceOfMatter { get; set; }
+        public string? MlcAnyOfHospitalisedPastHO { get; set; }
+        public string? MlcCurrentCondition { get; set; }
+        [StringLength(100)]
+        public string? MlcNameOfFiller { get; set; }
+        [StringLength(20)]
+        public string? MlcFillerMoNo { get; set; }
+
         public ICollection<PastOperation> PastOperations { get; set; } = new List<PastOperation>();
     }
 
@@ -206,6 +225,19 @@ namespace Lifecare_Backend.Models
         public string? Child { get; set; }
         public string? Occupation { get; set; }
         public string? Religion { get; set; }
+
+        public bool IsMlc { get; set; }
+        public string? MlcDrIncharge { get; set; }
+        public string? MlcMedicalOfficer { get; set; }
+        public string? MlcDetailOfMatter { get; set; }
+        public string? MlcDateOfMatter { get; set; }
+        public string? MlcTimeOfMatter { get; set; }
+        public string? MlcCauseOfMatter { get; set; }
+        public string? MlcPlaceOfMatter { get; set; }
+        public string? MlcAnyOfHospitalisedPastHO { get; set; }
+        public string? MlcCurrentCondition { get; set; }
+        public string? MlcNameOfFiller { get; set; }
+        public string? MlcFillerMoNo { get; set; }
     }
 
     public class CreatePastOperationDto
@@ -257,6 +289,19 @@ namespace Lifecare_Backend.Models
         public string? Child { get; set; }
         public string? Occupation { get; set; }
         public string? Religion { get; set; }
+
+        public bool IsMlc { get; set; }
+        public string? MlcDrIncharge { get; set; }
+        public string? MlcMedicalOfficer { get; set; }
+        public string? MlcDetailOfMatter { get; set; }
+        public string? MlcDateOfMatter { get; set; }
+        public string? MlcTimeOfMatter { get; set; }
+        public string? MlcCauseOfMatter { get; set; }
+        public string? MlcPlaceOfMatter { get; set; }
+        public string? MlcAnyOfHospitalisedPastHO { get; set; }
+        public string? MlcCurrentCondition { get; set; }
+        public string? MlcNameOfFiller { get; set; }
+        public string? MlcFillerMoNo { get; set; }
     }
 
     public class PastOperationDto

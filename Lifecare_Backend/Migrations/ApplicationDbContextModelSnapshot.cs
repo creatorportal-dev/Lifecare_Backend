@@ -804,12 +804,54 @@ namespace Lifecare_Backend.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<bool>("IsMlc")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MaritalStatus")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<bool?>("Mediclaim")
                         .HasColumnType("bit");
+
+                    b.Property<string>("MlcAnyOfHospitalisedPastHO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlcCauseOfMatter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlcCurrentCondition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlcDateOfMatter")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MlcDetailOfMatter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlcDrIncharge")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("MlcFillerMoNo")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("MlcMedicalOfficer")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("MlcNameOfFiller")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("MlcPlaceOfMatter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlcTimeOfMatter")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
