@@ -1,4 +1,4 @@
-@Lifecare_Backend_HostAddress = http://localhost:5037
+@Lifecare_Backend_HostAddress = http://localhost:5050
 
 GET {{Lifecare_Backend_HostAddress}}/weatherforecast/
 Accept: application/json
