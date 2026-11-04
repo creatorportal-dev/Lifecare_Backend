@@ -29,12 +29,12 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<EmployeeService>();
-builder.Services.AddScoped<IChargeService, ChargeService>();
-builder.Services.AddScoped<IMedicineCategoryService, MedicineCategoryService>();
-builder.Services.AddScoped<IMedicineService, MedicineService>();
-builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
-builder.Services.AddScoped<IBillService, BillService>();
+builder.Services.AddScoped<ChargeService>();
+builder.Services.AddScoped<MedicineCategoryService>();
+builder.Services.AddScoped<MedicineService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<PrescriptionService>();
+builder.Services.AddScoped<BillService>();
 
 builder.Services.AddCors(options =>
 {
@@ -68,6 +68,8 @@ using (var scope = app.Services.CreateScope())
 
 app.UseResponseCompression();
 
+app.UseCors("AllowAll");
+
 var logoPath = builder.Configuration["LogoUploadPath"] ?? "c:/logo";
 if (!System.IO.Directory.Exists(logoPath))
 {
@@ -81,8 +83,6 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 

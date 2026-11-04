@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lifecare_Backend.Services
 {
-    public class PatientService : IPatientService
+    public class PatientService
     {
         private readonly ApplicationDbContext _context;
 
@@ -68,6 +68,11 @@ namespace Lifecare_Backend.Services
                 MlcCurrentCondition = p.MlcCurrentCondition,
                 MlcNameOfFiller = p.MlcNameOfFiller,
                 MlcFillerMoNo = p.MlcFillerMoNo,
+                MlcPermanentAddress = p.MlcPermanentAddress,
+                MlcReportedPoliceStation = p.MlcReportedPoliceStation,
+                MlcPoliceInspectorName = p.MlcPoliceInspectorName,
+                MlcPoliceStationAddress = p.MlcPoliceStationAddress,
+                MlcFirOrCcNumber = p.MlcFirOrCcNumber,
                 PastOperations = p.PastOperations.Select(o => new PastOperationDto
                 {
                     Id = o.Id,
@@ -138,6 +143,11 @@ namespace Lifecare_Backend.Services
                     MlcCurrentCondition = p.MlcCurrentCondition,
                     MlcNameOfFiller = p.MlcNameOfFiller,
                     MlcFillerMoNo = p.MlcFillerMoNo,
+                    MlcPermanentAddress = p.MlcPermanentAddress,
+                    MlcReportedPoliceStation = p.MlcReportedPoliceStation,
+                    MlcPoliceInspectorName = p.MlcPoliceInspectorName,
+                    MlcPoliceStationAddress = p.MlcPoliceStationAddress,
+                    MlcFirOrCcNumber = p.MlcFirOrCcNumber,
                     PastOperations = p.PastOperations.Select(o => new PastOperationDto
                     {
                         Id = o.Id,
@@ -206,6 +216,11 @@ namespace Lifecare_Backend.Services
                     MlcCurrentCondition = p.MlcCurrentCondition,
                     MlcNameOfFiller = p.MlcNameOfFiller,
                     MlcFillerMoNo = p.MlcFillerMoNo,
+                    MlcPermanentAddress = p.MlcPermanentAddress,
+                    MlcReportedPoliceStation = p.MlcReportedPoliceStation,
+                    MlcPoliceInspectorName = p.MlcPoliceInspectorName,
+                    MlcPoliceStationAddress = p.MlcPoliceStationAddress,
+                    MlcFirOrCcNumber = p.MlcFirOrCcNumber,
                     PastOperations = p.PastOperations.Select(o => new PastOperationDto
                     {
                         Id = o.Id,
@@ -352,6 +367,11 @@ namespace Lifecare_Backend.Services
                 MlcCurrentCondition = dto.MlcCurrentCondition,
                 MlcNameOfFiller = dto.MlcNameOfFiller,
                 MlcFillerMoNo = dto.MlcFillerMoNo,
+                MlcPermanentAddress = dto.MlcPermanentAddress,
+                MlcReportedPoliceStation = dto.MlcReportedPoliceStation,
+                MlcPoliceInspectorName = dto.MlcPoliceInspectorName,
+                MlcPoliceStationAddress = dto.MlcPoliceStationAddress,
+                MlcFirOrCcNumber = dto.MlcFirOrCcNumber,
                 PastOperations = dto.PastOperations?.Select(o => new PastOperation
                 {
                     Type = o.Type,

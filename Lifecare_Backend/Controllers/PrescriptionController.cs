@@ -10,9 +10,9 @@ namespace Lifecare_Backend.Controllers
     [ApiController]
     public class PrescriptionController : ControllerBase
     {
-        private readonly IPrescriptionService _prescriptionService;
+        private readonly PrescriptionService _prescriptionService;
 
-        public PrescriptionController(IPrescriptionService prescriptionService)
+        public PrescriptionController(PrescriptionService prescriptionService)
         {
             _prescriptionService = prescriptionService;
         }

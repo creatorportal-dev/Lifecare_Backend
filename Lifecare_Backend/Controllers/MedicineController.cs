@@ -8,9 +8,9 @@ namespace Lifecare_Backend.Controllers
     [ApiController]
     public class MedicineController : ControllerBase
     {
-        private readonly IMedicineService _medicineService;
+        private readonly MedicineService _medicineService;
 
-        public MedicineController(IMedicineService medicineService)
+        public MedicineController(MedicineService medicineService)
         {
             _medicineService = medicineService;
         }

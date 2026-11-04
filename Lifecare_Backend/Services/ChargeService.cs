@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lifecare_Backend.Services
 {
-    public class ChargeService : IChargeService
+    public class ChargeService
     {
         private readonly ApplicationDbContext _context;
 

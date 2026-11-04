@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lifecare_Backend.Services
 {
-    public class MedicineCategoryService : IMedicineCategoryService
+    public class MedicineCategoryService
     {
         private readonly ApplicationDbContext _context;
 

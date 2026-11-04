@@ -838,6 +838,10 @@ namespace Lifecare_Backend.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("MlcFirOrCcNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("MlcMedicalOfficer")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -846,8 +850,24 @@ namespace Lifecare_Backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("MlcPermanentAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("MlcPlaceOfMatter")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlcPoliceInspectorName")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("MlcPoliceStationAddress")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("MlcReportedPoliceStation")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("MlcTimeOfMatter")
                         .HasMaxLength(50)

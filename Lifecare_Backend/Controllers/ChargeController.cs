@@ -8,9 +8,9 @@ namespace Lifecare_Backend.Controllers
     [ApiController]
     public class ChargeController : ControllerBase
     {
-        private readonly IChargeService _chargeService;
+        private readonly ChargeService _chargeService;
 
-        public ChargeController(IChargeService chargeService)
+        public ChargeController(ChargeService chargeService)
         {
             _chargeService = chargeService;
         }

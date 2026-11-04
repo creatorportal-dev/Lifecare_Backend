@@ -133,6 +133,16 @@ namespace Lifecare_Backend.Models
         public string? MlcNameOfFiller { get; set; }
         [StringLength(20)]
         public string? MlcFillerMoNo { get; set; }
+        [StringLength(500)]
+        public string? MlcPermanentAddress { get; set; }
+        [StringLength(200)]
+        public string? MlcReportedPoliceStation { get; set; }
+        [StringLength(150)]
+        public string? MlcPoliceInspectorName { get; set; }
+        [StringLength(300)]
+        public string? MlcPoliceStationAddress { get; set; }
+        [StringLength(50)]
+        public string? MlcFirOrCcNumber { get; set; }
 
         public ICollection<PastOperation> PastOperations { get; set; } = new List<PastOperation>();
     }
@@ -238,6 +248,11 @@ namespace Lifecare_Backend.Models
         public string? MlcCurrentCondition { get; set; }
         public string? MlcNameOfFiller { get; set; }
         public string? MlcFillerMoNo { get; set; }
+        public string? MlcPermanentAddress { get; set; }
+        public string? MlcReportedPoliceStation { get; set; }
+        public string? MlcPoliceInspectorName { get; set; }
+        public string? MlcPoliceStationAddress { get; set; }
+        public string? MlcFirOrCcNumber { get; set; }
     }
 
     public class CreatePastOperationDto
@@ -302,6 +317,11 @@ namespace Lifecare_Backend.Models
         public string? MlcCurrentCondition { get; set; }
         public string? MlcNameOfFiller { get; set; }
         public string? MlcFillerMoNo { get; set; }
+        public string? MlcPermanentAddress { get; set; }
+        public string? MlcReportedPoliceStation { get; set; }
+        public string? MlcPoliceInspectorName { get; set; }
+        public string? MlcPoliceStationAddress { get; set; }
+        public string? MlcFirOrCcNumber { get; set; }
     }
 
     public class PastOperationDto

@@ -53,6 +53,10 @@ namespace Lifecare_Backend.Controllers
                 settings.Address = updatedSettings.Address;
                 settings.LogoUrl = updatedSettings.LogoUrl;
                 settings.FollowUpValidityMonths = updatedSettings.FollowUpValidityMonths;
+                settings.BankAccountName = updatedSettings.BankAccountName;
+                settings.BankAccountNumber = updatedSettings.BankAccountNumber;
+                settings.BankName = updatedSettings.BankName;
+                settings.BankIfscCode = updatedSettings.BankIfscCode;
             }
 
             await _context.SaveChangesAsync();

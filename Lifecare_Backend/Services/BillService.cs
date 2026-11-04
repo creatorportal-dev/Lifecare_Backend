@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lifecare_Backend.Services
 {
-    public class BillService : IBillService
+    public class BillService
     {
         private readonly ApplicationDbContext _context;
 

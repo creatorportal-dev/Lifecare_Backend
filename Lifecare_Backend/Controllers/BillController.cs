@@ -10,9 +10,9 @@ namespace Lifecare_Backend.Controllers
     [ApiController]
     public class BillController : ControllerBase
     {
-        private readonly IBillService _billService;
+        private readonly BillService _billService;
 
-        public BillController(IBillService billService)
+        public BillController(BillService billService)
         {
             _billService = billService;
         }
