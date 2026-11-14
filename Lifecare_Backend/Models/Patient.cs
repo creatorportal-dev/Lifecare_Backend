@@ -144,6 +144,26 @@ namespace Lifecare_Backend.Models
         [StringLength(50)]
         public string? MlcFirOrCcNumber { get; set; }
 
+        public bool IsEmergency { get; set; }
+        [StringLength(100)]
+        public string? EmergencyMedicalOfficer { get; set; }
+        public string? EmergencyCondition { get; set; }
+        public string? EmergencyPastHistory { get; set; }
+        [StringLength(50)]
+        public string? EmergencyBp { get; set; }
+        [StringLength(50)]
+        public string? EmergencyPulse { get; set; }
+        [StringLength(50)]
+        public string? EmergencySpo2 { get; set; }
+        [StringLength(50)]
+        public string? EmergencyTemp { get; set; }
+        [StringLength(50)]
+        public string? EmergencyRr { get; set; }
+        public string? EmergencyInvestigations { get; set; }
+        public string? EmergencyDoctorsNote { get; set; }
+        public string? EmergencyStateInjection { get; set; }
+        public string? EmergencyNote { get; set; }
+
         public ICollection<PastOperation> PastOperations { get; set; } = new List<PastOperation>();
     }
 
@@ -253,6 +273,20 @@ namespace Lifecare_Backend.Models
         public string? MlcPoliceInspectorName { get; set; }
         public string? MlcPoliceStationAddress { get; set; }
         public string? MlcFirOrCcNumber { get; set; }
+
+        public bool IsEmergency { get; set; }
+        public string? EmergencyMedicalOfficer { get; set; }
+        public string? EmergencyCondition { get; set; }
+        public string? EmergencyPastHistory { get; set; }
+        public string? EmergencyBp { get; set; }
+        public string? EmergencyPulse { get; set; }
+        public string? EmergencySpo2 { get; set; }
+        public string? EmergencyTemp { get; set; }
+        public string? EmergencyRr { get; set; }
+        public string? EmergencyInvestigations { get; set; }
+        public string? EmergencyDoctorsNote { get; set; }
+        public string? EmergencyStateInjection { get; set; }
+        public string? EmergencyNote { get; set; }
     }
 
     public class CreatePastOperationDto
@@ -322,6 +356,20 @@ namespace Lifecare_Backend.Models
         public string? MlcPoliceInspectorName { get; set; }
         public string? MlcPoliceStationAddress { get; set; }
         public string? MlcFirOrCcNumber { get; set; }
+
+        public bool IsEmergency { get; set; }
+        public string? EmergencyMedicalOfficer { get; set; }
+        public string? EmergencyCondition { get; set; }
+        public string? EmergencyPastHistory { get; set; }
+        public string? EmergencyBp { get; set; }
+        public string? EmergencyPulse { get; set; }
+        public string? EmergencySpo2 { get; set; }
+        public string? EmergencyTemp { get; set; }
+        public string? EmergencyRr { get; set; }
+        public string? EmergencyInvestigations { get; set; }
+        public string? EmergencyDoctorsNote { get; set; }
+        public string? EmergencyStateInjection { get; set; }
+        public string? EmergencyNote { get; set; }
     }
 
     public class PastOperationDto

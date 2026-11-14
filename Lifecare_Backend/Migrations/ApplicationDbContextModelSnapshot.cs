@@ -792,6 +792,48 @@ namespace Lifecare_Backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("EmergencyBp")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("EmergencyCondition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyDoctorsNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyInvestigations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyMedicalOfficer")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("EmergencyNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyPastHistory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyPulse")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("EmergencyRr")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("EmergencySpo2")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("EmergencyStateInjection")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmergencyTemp")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -803,6 +845,9 @@ namespace Lifecare_Backend.Migrations
                     b.Property<string>("InsuranceCompany")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsEmergency")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsMlc")
                         .HasColumnType("bit");
