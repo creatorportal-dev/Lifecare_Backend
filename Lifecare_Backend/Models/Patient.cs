@@ -149,20 +149,17 @@ namespace Lifecare_Backend.Models
         public string? EmergencyMedicalOfficer { get; set; }
         public string? EmergencyCondition { get; set; }
         public string? EmergencyPastHistory { get; set; }
-        [StringLength(50)]
-        public string? EmergencyBp { get; set; }
-        [StringLength(50)]
-        public string? EmergencyPulse { get; set; }
-        [StringLength(50)]
-        public string? EmergencySpo2 { get; set; }
-        [StringLength(50)]
-        public string? EmergencyTemp { get; set; }
-        [StringLength(50)]
-        public string? EmergencyRr { get; set; }
         public string? EmergencyInvestigations { get; set; }
         public string? EmergencyDoctorsNote { get; set; }
         public string? EmergencyStateInjection { get; set; }
         public string? EmergencyNote { get; set; }
+
+        public bool IsSurgery { get; set; }
+        public string? SurgeryType { get; set; }
+        public string? SurgeryRiskNote { get; set; }
+        public string? SurgeryPreOpStatus { get; set; }
+        public string? SurgeryPostOpStatus { get; set; }
+        public string? SurgeryPastHistory { get; set; }
 
         public ICollection<PastOperation> PastOperations { get; set; } = new List<PastOperation>();
     }
@@ -278,15 +275,17 @@ namespace Lifecare_Backend.Models
         public string? EmergencyMedicalOfficer { get; set; }
         public string? EmergencyCondition { get; set; }
         public string? EmergencyPastHistory { get; set; }
-        public string? EmergencyBp { get; set; }
-        public string? EmergencyPulse { get; set; }
-        public string? EmergencySpo2 { get; set; }
-        public string? EmergencyTemp { get; set; }
-        public string? EmergencyRr { get; set; }
         public string? EmergencyInvestigations { get; set; }
         public string? EmergencyDoctorsNote { get; set; }
         public string? EmergencyStateInjection { get; set; }
         public string? EmergencyNote { get; set; }
+
+        public bool IsSurgery { get; set; }
+        public string? SurgeryType { get; set; }
+        public string? SurgeryRiskNote { get; set; }
+        public string? SurgeryPreOpStatus { get; set; }
+        public string? SurgeryPostOpStatus { get; set; }
+        public string? SurgeryPastHistory { get; set; }
     }
 
     public class CreatePastOperationDto
@@ -361,15 +360,17 @@ namespace Lifecare_Backend.Models
         public string? EmergencyMedicalOfficer { get; set; }
         public string? EmergencyCondition { get; set; }
         public string? EmergencyPastHistory { get; set; }
-        public string? EmergencyBp { get; set; }
-        public string? EmergencyPulse { get; set; }
-        public string? EmergencySpo2 { get; set; }
-        public string? EmergencyTemp { get; set; }
-        public string? EmergencyRr { get; set; }
         public string? EmergencyInvestigations { get; set; }
         public string? EmergencyDoctorsNote { get; set; }
         public string? EmergencyStateInjection { get; set; }
         public string? EmergencyNote { get; set; }
+
+        public bool IsSurgery { get; set; }
+        public string? SurgeryType { get; set; }
+        public string? SurgeryRiskNote { get; set; }
+        public string? SurgeryPreOpStatus { get; set; }
+        public string? SurgeryPostOpStatus { get; set; }
+        public string? SurgeryPastHistory { get; set; }
     }
 
     public class PastOperationDto

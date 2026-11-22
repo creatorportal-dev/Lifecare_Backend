@@ -792,10 +792,6 @@ namespace Lifecare_Backend.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("EmergencyBp")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("EmergencyCondition")
                         .HasColumnType("nvarchar(max)");
 
@@ -815,24 +811,8 @@ namespace Lifecare_Backend.Migrations
                     b.Property<string>("EmergencyPastHistory")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmergencyPulse")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("EmergencyRr")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("EmergencySpo2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("EmergencyStateInjection")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmergencyTemp")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -850,6 +830,9 @@ namespace Lifecare_Backend.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsMlc")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSurgery")
                         .HasColumnType("bit");
 
                     b.Property<string>("MaritalStatus")
@@ -975,6 +958,21 @@ namespace Lifecare_Backend.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("SurgeryPastHistory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SurgeryPostOpStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SurgeryPreOpStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SurgeryRiskNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SurgeryType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
                         .IsRequired()
